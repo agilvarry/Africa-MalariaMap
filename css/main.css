@@ -87,7 +87,7 @@ textarea {
    ========================================================================== */
 
 .browserupgrade {
-    margin: 0.2em 0;
+    /* margin: 0.2em 0; */
     background: #ccc;
     color: #000;
     padding: 0.2em 0;
@@ -104,7 +104,19 @@ textarea {
      font-family: 'Cabin', sans-serif;
      font-weight: bold;
      background: #222;
+     justify-content: space-between;
    }
+main{
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  align-items: center;
+}
+.container{
+  margin: 30px 30px 0 30px;
+
+}
    html{
      background-color: #778899;
    }
@@ -112,51 +124,23 @@ textarea {
      padding-left: 7px;
      text-decoration: none;
      color: inherit;
-     justify-content: flex-start;
    }
    #title{
-    margin: auto;
-    justify-content: flex-end;
-    font-size: 1.2em;
+     padding-right: 7px;
    }
-   .
+   a{
+     text-decoration: none;
+     color: inherit;
+   }
+
    .countries {
        fill: #FFF;
        stroke: #000;
        stroke-width: 0.5px;
 
    }
-
-   .gratLines {
-       fill: none;
-       stroke: #999;
-       stroke-width: 1px;
-   }
-
-#charts{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-   .map {
+   .map{
        background-color: none;
-   }
-   #graph{
-     position: relative;
-     display: flex;
-     align-self: flex-end;
-     flex-direction: column-reverse;
-     justify-content: space-around;
-   }
-   .chartTitle{
-     align-self: flex-start;
-     margin-left: 40px;
-     width: 600px;
-
-   }
-   .chart {
-      align-self: flex-end;
-      width: 600px;
    }
 
    .infolabel {
@@ -166,6 +150,7 @@ textarea {
     color: #fff;
     background-color: #000;
     border: solid thin #fff;
+    border-radius: 6px;
     padding: 5px 10px;
 }
 
@@ -186,12 +171,78 @@ textarea {
     padding: 5px 10px;
     top: -75px;
 }
+.selectors{
+  position: absolute;
+  top: 70px;
+  left: 100px;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.alt{
+  visibility: hidden;
+  display: none;
 
-   .dropdown {
+
+}
+@media screen and (max-width: 600px) {
+  .container, #title, #chartTitle {
+    visibility: hidden;
+    display: none;
+  }
+
+  .alt{
+    visibility: visible;
+    display: inline;
+    color: white;
+    font-weight: 700;
+    padding-top: 50px;
+  }
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    height: 160px;
+    width: 400px;
+    color: #fff;
+    background-color: #000;
+    border: solid thin #fff;
+    padding: 5px 10px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
     position: absolute;
-    top: 40px;
-    left: 40px;
-    z-index: 10;
+    z-index: 1;
+    /* bottom: 100%; */
+    left: 100%;
+    /* margin-left: 60px; */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+#icon{
+  font-size: 1.35em;
+  margin-left: 10px;
+}
+   .dropdown {
     font-family: sans-serif;
     font-size: 1em;
     font-weight: bold;
@@ -200,44 +251,19 @@ textarea {
     box-shadow: 2px 2px 4px #999;
 }
 
-option {
-    font-weight: normal;
-}
-
-   .numbers {
-    fill: white;
-    font-family: sans-serif;
-}
-
-.chartTitle {
-    font-family: sans-serif;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.chartBackground {
-    fill: rgba(128,128,128,.2);
-}
-
-.chartFrame {
-    fill: none;
-    stroke: #999;
-    stroke-width: 3px;
-    shape-rendering: crispEdges;
-}
-
 .axis path,
 .axis line {
     fill: none;
-    stroke: #999;
+    stroke: black;
     stroke-width: 1px;
     shape-rendering: crispEdges;
 }
 
 .axis text {
     font-family: sans-serif;
-    font-size: 0.8em;
-    fill: #999;
+    font-size: 1em;
+    fill: black;
+    font-weight: 700;
 }
 
 

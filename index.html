@@ -18,19 +18,27 @@
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-        <nav id="navbar">
+        <header>
+          <nav id="navbar">
             <a id="link" href="https://agilvarry.github.io">agilvarry</a>
-          <p id="title">Africa Malaria Stats</p>
-        </nav>
-        <main>
-          <div id="charts">
-            <div id="graph">
+              <p id="chartTitle"></p>
+              <a id="title" href="http://mdgs.un.org/unsd/mdg/Data.aspx">UN Millenium Devlopment Goals: Malaria</a>
+          </nav>
+        </header>
+        <div class="container">
+        <div class="selectors">
+        <div id="dropdown"></div>
+        <div class="tooltip">
+        <i id="icon" class="fas fa-question-circle"></i>
+          <span class="tooltiptext">In September 2000, 189 nations in the United Nations Millennium Declaration committed themselves to making the right to development a reality for everyone and to freeing the entire human race from want. The Declaration calls for halving by the year 2015, the number of people who live on less than one dollar a day. This effort also involves finding solutions to hunger, malnutrition and disease. </span>
+        </div>
+        </div>
+        <main></main>
+        </div>
+        <div class="alt">
+          Check this page out on a computer!
+        </div>
 
-            </div>
-
-
-          </div>
-        </main>
 
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -39,7 +47,10 @@
         <script src="https://d3js.org/d3-queue.v3.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
+
 
         <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
         <script>

@@ -4,11 +4,11 @@
   const attributes = ['malariaCases', 'allMalariaDeaths', 'deathsUnderFive', 'bedNets', 'treatment'];
   let expressed = attributes[4]; //initial attribute
   const attrFull = {
-    malariaCases : 'Notified cases of malaria per 100,000 people',
-    allMalariaDeaths : 'Malaria deaths per 100,000 people',
-    deathsUnderFive : 'Malaria death rate per 100,000 people under 5',
-    bedNets : 'Percent under 5 with insecticide-treated bed nets',
-    treatment : 'Percent under 5 with fever recieving anti-malarial drugs'
+    malariaCases : 'Notified cases of malaria per 100,000 population',
+    allMalariaDeaths : 'Malaria death rate per 100,000, all ages',
+    deathsUnderFive : 'Malaria death rate per 100,000, under 5',
+    bedNets : 'Percent of children under 5 with insecticide-treated bed nets',
+    treatment : 'Percent of children under 5 with fever recieving anti-malarial drugs'
   }
   const attrPop = {
     malariaCases : 'Malaira Cases',
@@ -19,8 +19,8 @@
   }
 
   //chart frame dimensions
-  const chartWidth = window.innerWidth * 0.5,
-  chartHeight = 460,
+  const chartWidth = window.innerWidth * 0.45,
+  chartHeight = 560,
   leftPadding = 40,
   rightPadding = 2,
   topBottomPadding = 5,
@@ -51,20 +51,6 @@
     .text('{"stroke": "#000", "stroke-width": "0.5px"}');
   };
 
-  // function setGraticule(map, path){
-  //     //...GRATICULE BLOCKS FROM PREVIOUS MODULE
-  //     //distortion lines
-  //     const graticule = d3.geoGraticule()
-  //     .step([5, 5]); //place graticule lines every 5 degrees of longitude and latitude
-  //
-  //     //create graticule lines
-  //     const gratLines = map.selectAll(".gratLines") //select graticule elements that will be created
-  //     .data(graticule.lines()) //bind graticule lines to each element to be created
-  //     .enter() //create an element for each datum
-  //     .append("path") //append each element to the svg as a path element
-  //     .attr("class", "gratLines") //assign class for styling
-  //     .attr("d", path); //project graticule line
-  // };
   function joinData(africanCountries, malaria){
     //...DATA JOIN LOOPS FROM EXAMPLE 1.1
     //loop through csv to assign each set of csv attribute values to geojson region
@@ -134,7 +120,7 @@
     //create vertical axis generator
     //yAxis = d3.axisLeft(yScale);
 
-    const chart = d3.select("#graph")
+    const chart = d3.select("main")
     .append("svg")
     .attr("width", chartWidth)
     .attr("height", chartHeight)
@@ -170,24 +156,24 @@
     .on("mouseover", highlight)
     .on("mouseout", dehighlight)
     .on("mousemove", moveLabel);
-
+    //style to add back to bar after hover
     let desc = bars.append("desc")
-    .text('{"stroke": "none", "stroke-width": "0px"}');
+    .text('{"stroke": "none", "stroke-width": "0.5px"}');
 
-    //below Example 2.8...create a text element for the chart title
-    var chartTitle = d3.select("#graph").append("text")
-    .attr("x", 20)
-    .attr("y", 40)
+    //create a text element for the chart title
+    var chartTitle = d3.select("#chartTitle").append("text")
+    // .attr("x", 20)
+    // .attr("y", 40)
     .attr("class", "chartTitle")
     .text(attrFull[expressed])
-    .attr("transform", translate);
+  //  .attr("transform", translate);
 
     updateChart(bars, malaria.length, colorScale);
   };
   //function to create a dropdown menu for attribute selection
   function createDropdown(malaria){
     //add select element
-    const dropdown = d3.select("main")
+    const dropdown = d3.select("#dropdown")
     .append("select")
     .attr("class", "dropdown")
     .on("change", function(){
@@ -206,7 +192,7 @@
     .enter()
     .append("option")
     .attr("value", d => d )
-    .text(d => d );
+    .text(d => attrPop[d] );
   };
 
   //dropdown change listener handler
@@ -261,7 +247,7 @@
 
     //change stroke
     var selected = d3.selectAll('.co' + props.Code)
-    .style("stroke", "blue")
+    .style("stroke", "orange")
     .style("stroke-width", "2");
 
     setLabel(props);
@@ -344,11 +330,11 @@
   //set up map
   function setMap(){
     //map dimensions
-    const width = window.innerWidth * 0.425;
-    const height = 560;
+    const width = window.innerWidth * 0.45;
+    const height = 630;
 
     //map container
-    const map = d3.select("#charts")
+    const map = d3.select("main")
     .append("svg")
     .attr("class", "map")
     .attr("width", width)
@@ -359,7 +345,7 @@
     .center([1, 25])
     .rotate([-13.55, 22.73, 1])
     .parallels([18.59, 44.19])
-    .scale(388.26)
+    .scale(500)
     .translate([width / 2, height / 2]);
 
     //create a path to draw the geometry and set the projection
@@ -374,7 +360,6 @@
 
     function ready(error, malaria, africa){
       let filteredmalaria = malaria.filter(d=> d['malariaCases']>0);
-      console.log(filteredmalaria);
       createDropdown(filteredmalaria);
       //convert topojson into geojson
       const africanCountries = topojson.feature(africa, africa.objects.Africa).features;
