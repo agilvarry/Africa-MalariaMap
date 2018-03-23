@@ -224,14 +224,14 @@ main{
     transition: opacity 0.3s;
 }
 
-.tooltip .tooltiptext::after {
+/* .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
-}
+} */
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
