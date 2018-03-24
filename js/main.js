@@ -345,7 +345,7 @@
     .center([1, 25])
     .rotate([-13.55, 22.73, 1])
     .parallels([18.59, 44.19])
-    .scale(500)
+    .scale(450)
     .translate([width / 2, height / 2]);
 
     //create a path to draw the geometry and set the projection
