@@ -20,7 +20,7 @@
 
   //chart frame dimensions
   const chartWidth = window.innerWidth * 0.45,
-  chartHeight = 560,
+  chartHeight = 550,
   leftPadding = 40,
   rightPadding = 2,
   topBottomPadding = 5,
@@ -331,7 +331,7 @@
   function setMap(){
     //map dimensions
     const width = window.innerWidth * 0.45;
-    const height = 630;
+    const height = 550;
 
     //map container
     const map = d3.select("main")
