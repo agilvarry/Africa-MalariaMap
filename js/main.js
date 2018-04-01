@@ -20,7 +20,7 @@
 
   //chart frame dimensions
   const chartWidth = window.innerWidth * 0.45,
-  chartHeight = 550,
+  chartHeight = window.innerHeight * 0.85,
   leftPadding = 40,
   rightPadding = 2,
   topBottomPadding = 5,
@@ -331,7 +331,8 @@
   function setMap(){
     //map dimensions
     const width = window.innerWidth * 0.45;
-    const height = 550;
+    const height = window.innerHeight *0.85
+    console.log(height);
 
     //map container
     const map = d3.select("main")
@@ -345,7 +346,7 @@
     .center([1, 25])
     .rotate([-13.55, 22.73, 1])
     .parallels([18.59, 44.19])
-    .scale(450)
+    .scale(height-94)
     .translate([width / 2, height / 2]);
 
     //create a path to draw the geometry and set the projection
