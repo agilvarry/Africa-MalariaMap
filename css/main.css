@@ -9,7 +9,7 @@
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
-
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Cabin');
 html {
     color: #222;
     font-size: 1em;
@@ -122,6 +122,7 @@ main{
 }
    html{
      background-color: #778899;
+     font-family: sans-serif;
    }
    #link{
      padding-left: 7px;
@@ -146,16 +147,6 @@ main{
        background-color: none;
    }
 
-   .infolabel {
-    position: absolute;
-    height: 50px;
-    min-width: 100px;
-    color: #fff;
-    background-color: #000;
-    border: solid thin #fff;
-    border-radius: 6px;
-    padding: 5px 10px;
-}
 
 .infolabel h1 {
     margin: 0 20px 0 0;
@@ -169,6 +160,7 @@ main{
     height: 50px;
     min-width: 100px;
     color: #fff;
+      border-radius: 6px;
     background-color: #000;
     border: solid thin #fff;
     padding: 5px 10px;
@@ -209,32 +201,20 @@ main{
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    height: 160px;
+    height: 180px;
     width: 400px;
     color: #fff;
     background-color: #000;
     border: solid thin #fff;
     padding: 5px 10px;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
-    padding: 5px 0;
     position: absolute;
     z-index: 1;
-    /* bottom: 100%; */
     left: 100%;
-    /* margin-left: 60px; */
-    opacity: 0;
-    transition: opacity 0.3s;
+    transition: 0.3s;
 }
 
-/* .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-} */
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
