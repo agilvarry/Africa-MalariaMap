@@ -4,7 +4,7 @@
   //array to contain variable names for all attributes
   const attributes = ['malariaCases', 'allMalariaDeaths', 'deathsUnderFive', 'bedNets', 'treatment'];
   let expressed = attributes[4]; //initial attribute
-//array of full attriutes names for display
+  //array of full attriutes names for display
   const attrFull = {
     malariaCases : 'Notified cases of malaria per 100,000 population',
     allMalariaDeaths : 'Malaria death rate per 100,000, all ages',
@@ -37,7 +37,7 @@
   yAxis = d3.axisLeft(yScale);
   //start script when window loads
   window.onload = setMap();
-//sets up the SVG for the map D3
+  //sets up the SVG for the map D3
   function setSVG(africanCountries, map, path, colorScale){
     const countries = map.selectAll('countries')
     .data(africanCountries)
@@ -53,7 +53,7 @@
     let desc = countries.append("desc")
     .text('{"stroke": "#000", "stroke-width": "0.5px"}');
   };
-    //joins data from csv and topojson map
+  //joins data from csv and topojson map
   function joinData(africanCountries, malaria){
     //loop through csv to assign each set of csv attribute values to geojson region
     for (let i=0; i<malaria.length; i++){
@@ -69,7 +69,7 @@
         if (jsonCode == csvCode){
           //assign all attributes and values
           attributes.forEach(function(a){
-          let val = parseFloat(csvCountry[a]); //get csv attribute value
+            let val = parseFloat(csvCountry[a]); //get csv attribute value
 
             jsonCountry[a] = val; //assign attribute and value to geojson properties
 
