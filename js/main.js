@@ -1,8 +1,10 @@
 
 //self calling global function
 (function(){
+  //array to contain variable names for all attributes
   const attributes = ['malariaCases', 'allMalariaDeaths', 'deathsUnderFive', 'bedNets', 'treatment'];
   let expressed = attributes[4]; //initial attribute
+//array of full attriutes names for display
   const attrFull = {
     malariaCases : 'Notified cases of malaria per 100,000 population',
     allMalariaDeaths : 'Malaria death rate per 100,000, all ages',
@@ -10,6 +12,7 @@
     bedNets : 'Percent of children under 5 with insecticide-treated bed nets',
     treatment : 'Percent of children under 5 with fever recieving anti-malarial drugs'
   }
+  //attributes for popup display
   const attrPop = {
     malariaCases : 'Malaira Cases',
     allMalariaDeaths : 'Malaria Deaths',
@@ -18,7 +21,7 @@
     treatment : 'Children Being Treated'
   }
 
-  //chart frame dimensions
+  //chart frame dimensions, changes dynamically based on window size
   const chartWidth = window.innerWidth * 0.45,
   chartHeight = window.innerHeight * 0.85,
   leftPadding = 40,
@@ -27,14 +30,14 @@
   chartInnerWidth = chartWidth - leftPadding - rightPadding,
   chartInnerHeight = chartHeight - topBottomPadding * 2,
   translate = "translate(" + leftPadding + "," + topBottomPadding + ")";
-  //need to dynamically update yScale domain
+  //set the y scale based on chart heght
   let yScale = d3.scaleLinear()
   .range([chartHeight-10,0])
   .domain([0, 100]);
   yAxis = d3.axisLeft(yScale);
   //start script when window loads
   window.onload = setMap();
-
+//sets up the SVG for the map D3
   function setSVG(africanCountries, map, path, colorScale){
     const countries = map.selectAll('countries')
     .data(africanCountries)
@@ -46,13 +49,12 @@
     .on("mouseover", d => highlight(d.properties))
     .on("mouseout", d => dehighlight(d.properties))
     .on("mousemove", moveLabel);
-
+    //variable that contains styling info for use in hover
     let desc = countries.append("desc")
     .text('{"stroke": "#000", "stroke-width": "0.5px"}');
   };
-
+    //joins data from csv and topojson map
   function joinData(africanCountries, malaria){
-    //...DATA JOIN LOOPS FROM EXAMPLE 1.1
     //loop through csv to assign each set of csv attribute values to geojson region
     for (let i=0; i<malaria.length; i++){
       let csvCountry = malaria[i]; //the current country in the CVS
@@ -60,7 +62,6 @@
 
       //loop through geojson regions to find correct region
       for (let j=0; j<africanCountries.length; j++){
-
         let jsonCountry = africanCountries[j].properties; //the current region geojson properties
         let jsonCode = jsonCountry.Code; //the geojson primary key code
 
@@ -68,7 +69,7 @@
         if (jsonCode == csvCode){
           //assign all attributes and values
           attributes.forEach(function(a){
-            let val = parseFloat(csvCountry[a]); //get csv attribute value
+          let val = parseFloat(csvCountry[a]); //get csv attribute value
 
             jsonCountry[a] = val; //assign attribute and value to geojson properties
 
@@ -112,40 +113,27 @@
       return "#CCC";
     };
   };
-
+  //function to initialize D3 bar chart
   function setChart(malaria, colorScale){
 
     const fraction = chartWidth / malaria.length-10;
     //create a second svg element to hold the bar chart
-    //create vertical axis generator
-    //yAxis = d3.axisLeft(yScale);
 
+    //add the chart to <main>
     const chart = d3.select("main")
     .append("svg")
     .attr("width", chartWidth)
     .attr("height", chartHeight)
     .attr("class", "chart");
 
-    // const chartBackground = chart.append("rect")
-    // .attr("class", "chartBackground")
-    // .attr("width", chartInnerWidth)
-    // .attr("height", chartInnerHeight)
-    // .attr("transform", translate);
-
+    //add axis to chart
     var axis = chart.append("g")
     .attr("class", "axis")
     .attr("transform", translate)
     .call(yAxis);
 
-    //  //create frame for chart border
-    // const chartFrame = chart.append("rect")
-    //     .attr("class", "chartFrame")
-    //     .attr("width", chartInnerWidth)
-    //     .attr("height", chartInnerHeight)
-    //     .attr("transform", translate);
 
     //set bars for each country
-
     var bars = chart.selectAll(".bars")
     .data(malaria)
     .enter().filter(d => d[expressed]>0)
@@ -156,18 +144,14 @@
     .on("mouseover", highlight)
     .on("mouseout", dehighlight)
     .on("mousemove", moveLabel);
+
     //style to add back to bar after hover
     let desc = bars.append("desc")
     .text('{"stroke": "none", "stroke-width": "0.5px"}');
-
     //create a text element for the chart title
     var chartTitle = d3.select("#chartTitle").append("text")
-    // .attr("x", 20)
-    // .attr("y", 40)
     .attr("class", "chartTitle")
-    .text(attrFull[expressed])
-  //  .attr("transform", translate);
-
+    .text(attrFull[expressed]);
     updateChart(bars, malaria.length, colorScale);
   };
   //function to create a dropdown menu for attribute selection
@@ -206,7 +190,7 @@
     } else{
       max = 40000;
     }
-
+    //set scale of Y axis
     yScale.domain([0, max]);
     //recreate the color scale
     let colorScale = makeColorScale(malaria);
@@ -224,7 +208,6 @@
     .delay((d, i) =>i * 20)
     .duration(500);
 
-
     updateChart(bars, malaria.length, colorScale)
   };
 
@@ -234,10 +217,10 @@
     .attr("height", d => chartHeight - yScale(parseFloat(d[expressed]))-10)
     .attr("y", d => yScale(parseFloat(d[expressed])) +topBottomPadding)
     .style('fill', d => choropleth(d, colorScale));
-
+    //set y axis
     d3.selectAll("g.axis")
     .call(yAxis);
-
+    //change text of title
     d3.selectAll(".chartTitle")
     .text(attrFull[expressed]);
   };
@@ -264,7 +247,7 @@
     .style("stroke-width", function(){
       return getStyle(this, "stroke-width")
     });
-
+    //set text in hover popups
     function getStyle(element, styleName){
       var styleText = d3.select(element)
       .select("desc")
@@ -274,8 +257,7 @@
 
       return styleObject[styleName];
     };
-    d3.select(".infolabel")
-    .remove();
+    d3.select(".infolabel").remove();
   };
 
 
@@ -285,22 +267,20 @@
     .node()
     .getBoundingClientRect()
     .width;
-
     //use coordinates of mousemove event to set label coordinates
     var x1 = d3.event.clientX + 10,
     y1 = d3.event.clientY - 75,
     x2 = d3.event.clientX - labelWidth - 10,
     y2 = d3.event.clientY + 25;
-
     //horizontal label coordinate, testing for overflow
     var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1;
     //vertical label coordinate, testing for overflow
     var y = d3.event.clientY < 75 ? y2 : y1;
-
     d3.select(".infolabel")
     .style("left", x + "px")
     .style("top", y + "px");
   };
+
   //function to create dynamic label
   function setLabel(props){
     //label content
@@ -322,7 +302,7 @@
     .attr("class", "infolabel")
     .attr("id", "co" + props.Code + "_label")
     .html(labelAttribute);
-
+    //set country name to popup
     var countryName = infolabel.append("div")
     .attr("class", "labelname")
     .html(props.Country);
@@ -346,7 +326,7 @@
     .center([1, 25])
     .rotate([-13.55, 22.73, 1])
     .parallels([18.59, 44.19])
-    .scale(height-94)
+    .scale(window.innerHeight *0.7)
     .translate([width / 2, height / 2]);
 
     //create a path to draw the geometry and set the projection
@@ -359,22 +339,21 @@
     .defer(d3.json, "doc/Africa.topojson") //Afria spatial data
     .await(ready);
 
+    //function calls after loading data with D3's ajax thingy
     function ready(error, malaria, africa){
+      //filters malaria data so that any country without info doesn't show up in bar chart
       let filteredmalaria = malaria.filter(d=> d['malariaCases']>0);
+      //creates the dropdown to select different datasets
       createDropdown(filteredmalaria);
       //convert topojson into geojson
       const africanCountries = topojson.feature(africa, africa.objects.Africa).features;
-
       //join the 2 datasets together
       const joinedData = joinData(africanCountries, malaria);
-
       //create the color scale
       let colorScale = makeColorScale(malaria);
       //make SVG map
       setSVG(joinedData, map, path, colorScale);
-      //set up distortion lines
-      //setGraticule(map, path);
-
+      //set up bar chart
       setChart(filteredmalaria, colorScale);
     };
   };
